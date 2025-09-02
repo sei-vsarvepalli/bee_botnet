@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+_version = "1.0.9"
 # Parameters
 N0 = 250              # initial botnet size
 weeks = 10            # simulation horizon in weeks
@@ -38,16 +39,21 @@ avg_run = all_runs.mean(axis=0)
 
 # Plot
 plt.figure(figsize=(12,6))
+i = 0;
 for run in all_runs:
-    plt.plot(run, color="gray", alpha=0.4)
-plt.plot(avg_run, color="red", linewidth=2, label="Scouts (simulated)")
+    if i == len(all_runs) - 1:
+        plt.plot(run, color="#6c757d", linewidth=1, alpha=0.3, label="Simulations")
+    else:
+        plt.plot(run, color="#6c757d", linewidth=1, alpha=0.3)
+    i = i + 1
+plt.plot(avg_run, color="red", linewidth=2, label="Scouts (Average simulated)")
 akamai = np.loadtxt('akamai.csv', delimiter=',')
 isp = np.loadtxt('isp1.csv', delimiter=',')
 
 plt.plot(akamai, color="orange", linewidth=2, label="Akamai (measured)", linestyle='dotted')
 plt.plot(isp, color="blue", linewidth=2, label="ISP (measured)", linestyle='dashed')
-plt.title("Botnet Growth Simulations (Daily Steps, Smooth Curves)")
-plt.xlabel("Day")
+#plt.title("Botnet Growth Simulations (Daily Steps, Smooth Curves)")
+plt.xlabel("Time Period (days)")
 plt.ylabel("Botnet size")
 plt.legend()
 plt.grid(True)
